@@ -82,7 +82,7 @@ func (r *Runner) Execute(ctx context.Context, req PromptRequest, emit func(Strea
 	}
 	model := strings.TrimSpace(req.Model)
 	if model == "" {
-		model = "google/gemini-4-neon"
+		model = "openrouter/free"
 	}
 	allowWrite := strings.ToLower(strings.TrimSpace(req.Mode)) == "agent"
 
@@ -211,8 +211,9 @@ func (r *Runner) callChatCompletion(
 	tools []map[string]any,
 ) (assistantChoice, error) {
 	bodyMap := map[string]any{
-		"model":    model,
-		"messages": messages,
+		"model":      model,
+		"max_tokens": 2048,
+		"messages":   messages,
 	}
 	if len(tools) > 0 {
 		bodyMap["tools"] = tools
